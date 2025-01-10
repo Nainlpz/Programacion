@@ -1,3 +1,5 @@
+from src.pips import Pips
+
 class Yatzy:
 
     ZERO = 0
@@ -13,80 +15,35 @@ class Yatzy:
         return Yatzy.FIFTY if dice.count(dice[0]) == NECESSARY_VALUE else Yatzy.ZERO
 
     @staticmethod
-    def ones(d1, d2, d3, d4, d5):
-        sum = 0
-        if (d1 == 1):
-            sum += 1
-        if (d2 == 1):
-            sum += 1
-        if (d3 == 1):
-            sum += 1
-        if (d4 == 1):
-            sum += 1
-        if (d5 == 1):
-            sum += 1
-
-        return sum
+    def ones(*dice):
+        ONE = Pips.ONE.value
+        return dice.count(ONE)
 
     @staticmethod
-    def twos(d1, d2, d3, d4, d5):
-        sum = 0
-        if (d1 == 2):
-            sum += 2
-        if (d2 == 2):
-            sum += 2
-        if (d3 == 2):
-            sum += 2
-        if (d4 == 2):
-            sum += 2
-        if (d5 == 2):
-            sum += 2
-        return sum
+    def twos(*dice):
+        TWO = Pips.TWO.value
+        return dice.count(TWO) * TWO
+    
+    @staticmethod
+    def threes(*dice):
+        THREE = Pips.THREE.value
+        return dice.count(THREE) * THREE
 
     @staticmethod
-    def threes(d1, d2, d3, d4, d5):
-        s = 0
-        if (d1 == 3):
-            s += 3
-        if (d2 == 3):
-            s += 3
-        if (d3 == 3):
-            s += 3
-        if (d4 == 3):
-            s += 3
-        if (d5 == 3):
-            s += 3
-        return s
+    def fours(*dice):
+        FOUR = Pips.FOUR.value
+        return dice.count(FOUR) * FOUR
 
-    def __init__(self, d1=0, d2=0, d3=0, d4=0, _5=0):
-        self.dice = [0] * 5
-        self.dice[0] = d1
-        self.dice[1] = d2
-        self.dice[2] = d3
-        self.dice[3] = d4
-        self.dice[4] = _5
+    @staticmethod
+    def fives(*dice):
+        FIVE = Pips.FIVE.value
+        return dice.count(FIVE) * FIVE
 
-    def fours(self):
-        sum = 0
-        for at in range(5):
-            if (self.dice[at] == 4):
-                sum += 4
-        return sum
+    @staticmethod
+    def sixes(*dice):
+        SIX = Pips.SIX.value
+        return dice.count(SIX) * SIX
 
-    def fives(self):
-        s = 0
-        i = 0
-        for i in range(len(self.dice)):
-            if (self.dice[i] == 5):
-                s = s + 5
-        return s
-
-    def sixes(self):
-        sum = 0
-        for at in range(len(self.dice)):
-            if (self.dice[at] == 6):
-                sum = sum + 6
-        return sum
 
     def score_pair(self, d1, d2, d3, d4, d5):
         counts = [0] * 6
