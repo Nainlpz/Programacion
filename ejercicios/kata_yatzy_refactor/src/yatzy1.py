@@ -10,7 +10,7 @@ class Yatzy:
         return sum(dice)
 
     @staticmethod
-    def yatzy(dice):
+    def yatzy(*dice):
         NECESSARY_VALUE = 5
         return Yatzy.FIFTY if dice.count(dice[0]) == NECESSARY_VALUE else Yatzy.ZERO
 
@@ -44,19 +44,18 @@ class Yatzy:
         SIX = Pips.SIX.value
         return dice.count(SIX) * SIX
 
-
-    def score_pair(self, d1, d2, d3, d4, d5):
-        counts = [0] * 6
-        counts[d1 - 1] += 1
-        counts[d2 - 1] += 1
-        counts[d3 - 1] += 1
-        counts[d4 - 1] += 1
-        counts[d5 - 1] += 1
-        at = 0
-        for at in range(6):
-            if (counts[6 - at - 1] == 2):
-                return (6 - at) * 2
-        return 0
+    @classmethod
+    def __find_max_pair(cls, *dice):
+        value = 6
+        while dice.count(value) < 2:
+            value -= 1
+        return value
+            
+    @classmethod
+    def score_pair(cls, *dice):
+        TWO = Pips.TWO.value
+        pair = cls.__find_max_pair(*dice)
+        return pair * TWO
 
     @staticmethod
     def two_pair(d1, d2, d3, d4, d5):
