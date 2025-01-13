@@ -43,44 +43,35 @@ class Yatzy:
     def sixes(*dice):
         SIX = Pips.SIX.value
         return dice.count(SIX) * SIX
-
+    
     @classmethod
-    def __find_max_pair(cls, *dice):
-        max_pair = 6
-        while dice.count(max_pair) < 2:
-            max_pair -= 1
-        return max_pair
+    def __find_pairs(cls, *dice):
+        pairs = []
+        for die in set(dice):
+            if dice.count(die) > 1:
+                pairs.append(die)
+        return pairs
+    
+    @classmethod
+    def __max_pair(cls, *dice):
+        return max(cls.__find_pairs(*dice))
             
+
     @classmethod
     def score_pair(cls, *dice):
         TWO = Pips.TWO.value
-        pair = cls.__find_max_pair(*dice)
+        pair = cls.__max_pair(*dice)
         return pair * TWO
-    
-    @classmethod
-    def __find_second_pair(cls, *dice):
-        first_pair = cls.__find_max_pair(*dice)
-        second_pair = first_pair - 1
-        while dice.count(second_pair) < 2:
-            second_pair -= 1
-        return second_pair
         
     @classmethod
     def two_pair(cls, *dice):
-        return cls.score_pair(*dice) + (cls.__find_second_pair(*dice) * 2)
+        pairs = cls.__find_pairs(*dice)
+        return (pairs[0] * 2) + (pairs[1] * 2) if len(pairs) > 1 else Yatzy.ZERO
 
     @staticmethod
-    def four_of_a_kind(_1, _2, d3, d4, d5):
-        tallies = [0] * 6
-        tallies[_1 - 1] += 1
-        tallies[_2 - 1] += 1
-        tallies[d3 - 1] += 1
-        tallies[d4 - 1] += 1
-        tallies[d5 - 1] += 1
-        for i in range(6):
-            if (tallies[i] >= 4):
-                return (i + 1) * 4
-        return 0
+    def four_of_a_kind(*dice):
+        for die in dice:
+            die * 4 if dice.count(die) == 4 else Yatzy.ZERO
 
     @staticmethod
     def three_of_a_kind(d1, d2, d3, d4, d5):
