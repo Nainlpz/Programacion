@@ -46,36 +46,28 @@ class Yatzy:
 
     @classmethod
     def __find_max_pair(cls, *dice):
-        value = 6
-        while dice.count(value) < 2:
-            value -= 1
-        return value
+        max_pair = 6
+        while dice.count(max_pair) < 2:
+            max_pair -= 1
+        return max_pair
             
     @classmethod
     def score_pair(cls, *dice):
         TWO = Pips.TWO.value
         pair = cls.__find_max_pair(*dice)
         return pair * TWO
-
-    @staticmethod
-    def two_pair(d1, d2, d3, d4, d5):
-        counts = [0] * 6
-        counts[d1 - 1] += 1
-        counts[d2 - 1] += 1
-        counts[d3 - 1] += 1
-        counts[d4 - 1] += 1
-        counts[d5 - 1] += 1
-        n = 0
-        score = 0
-        for i in range(6):
-            if (counts[6 - i - 1] >= 2):
-                n = n + 1
-                score += (6 - i)
-
-        if (n == 2):
-            return score * 2
-        else:
-            return 0
+    
+    @classmethod
+    def __find_second_pair(cls, *dice):
+        first_pair = cls.__find_max_pair(*dice)
+        second_pair = first_pair - 1
+        while dice.count(second_pair) < 2:
+            second_pair -= 1
+        return second_pair
+        
+    @classmethod
+    def two_pair(cls, *dice):
+        return cls.score_pair(*dice) + (cls.__find_second_pair(*dice) * 2)
 
     @staticmethod
     def four_of_a_kind(_1, _2, d3, d4, d5):
